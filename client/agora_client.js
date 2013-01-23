@@ -5,11 +5,9 @@ $(document).ready(function(){
         $('#words').val('');
     });
 
-    var wsUri = "ws://echo.websocket.org/"; 
+    var wsUri = "ws://localhost:8888/"; 
     websocket = new WebSocket(wsUri);
-    websocket.onmessage = function(m) { onMessage(m) };
-
-    function onMessage(m){
+    websocket.onmessage = function(m){
         $('#chat').append('<p>' + m.data + '</p>');
     };
 });
