@@ -1,14 +1,19 @@
 $(document).ready(function(){
-    $('#send').click(function() {
-        var msg = $('#words').val();
+    var name = window.prompt("Your name?");
+
+    $('.send').click(function() {
+        var chat_num = this.classList[1];
+        var msg = $('#words' + chat_num).val();
+        msg = chat_num + '|' + name + ': ' + msg;
         websocket.send(msg);
-        $('#words').val('');
+        $('#words' + chat_num).val('');
     });
 
-    var wsUri = "ws://localhost:8888/"; 
+    var wsUri = "ws://10.72.10.163:8888/"; 
     websocket = new WebSocket(wsUri);
     websocket.onmessage = function(m){
-        $('#chat').append('<p>' + m.data + '</p>');
+        var data = m.data.split('|');
+        $('#chat' + data[0]).append('<p>' + data[1] + '</p>');
     };
 });
 
