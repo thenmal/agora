@@ -1,5 +1,16 @@
 $(document).ready(function(){
-    var name = window.prompt("Your name?");
+    var cookie = cookieToObject(document.cookie);
+    var name = "";
+    var email = "";
+    if(cookie['username'] && cookie['email']){
+        name = cookie['username'];
+        email = cookie['email'];
+    } else {
+        name = window.prompt("Your name?");
+        email = window.prompt("Your gravatar email?");
+        createCookie(name, email);
+    }
+
 
     $('.send').click(function() {
         var chat_num = this.classList[1];
@@ -17,6 +28,11 @@ $(document).ready(function(){
     };
 });
 
+function getGravatar(email){
+    var hash = md5sum(lower(email));
+    return "http://www.gravatar.com/avatar/" + hash;
+}
+
 function cookieToObject(cookie){
     var dictionary = {};
     var c = cookie.split('; ');
@@ -25,4 +41,15 @@ function cookieToObject(cookie){
         dictionary[s[0]] = s[1];
     }
     return dictionary;
+}
+
+function createCookie(username, email){
+    var cookie = 'username=' + escape(username);
+    document.cookie = cookie;
+    cookie = 'email=' + escape(email);
+    document.cookie = cookie;
+    var exdate=new Date();
+    exdate.setDate(exdate.getDate() + 365);
+    cookie = 'expires=' + exdate.toUTCString();
+    document.cookie = cookie;
 }
