@@ -17,7 +17,12 @@ $(document).ready(function(){
     };
 });
 
-
-
-
-
+function cookieToObject(cookie){
+    var dictionary = {};
+    var c = cookie.split('; ');
+    for (var i = 0; i < c.length; i++){
+        var s = c[i].split('=');
+        dictionary[s[0]] = s[1];
+    }
+    return dictionary;
+}
