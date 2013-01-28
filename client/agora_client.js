@@ -1,3 +1,5 @@
+var users = {};
+
 $(document).ready(function(){
     var cookie = cookieToObject(document.cookie);
     var name = "";
@@ -11,7 +13,6 @@ $(document).ready(function(){
         createCookie(name, email);
     }
 
-
     $('.send').click(function() {
         var chat_num = this.classList[1];
         var msg = $('#words' + chat_num).val();
@@ -20,16 +21,43 @@ $(document).ready(function(){
         $('#words' + chat_num).val('');
     });
 
-    var wsUri = "ws://10.72.10.163:8888/"; 
+    var wsUri = "ws://localhost:8888/"; 
     websocket = new WebSocket(wsUri);
+    sendJoin(name, email, websocket);
     websocket.onmessage = function(m){
-        var data = m.data.split('|');
-        $('#chat' + data[0]).append('<p>' + data[1] + '</p>');
+        parseMessage(m.data);
     };
 });
 
+function parseMessage(m){
+    var p = m.split('|');
+    var n = parseInt(p[0]);
+    if(n == 0){
+        userJoined(m);
+    } else {
+        var user_email = users[parseInt(p[1])].email;
+        var dom = '<p><img src="' + getGravatar(user_email) + '?s=40" />' + n[2] + '</p>';
+        $('#chat' + n).append(dom);
+    }
+}
+
+function userJoined(message){
+    var parts = message.split('|');
+    var user_number = parseInt(parts[0]);
+    var user_name = parts[1];
+    var user_email = parts[2];
+    users[user_number] = {};
+    users[user_number]['name'] = user_name;
+    users[user_number]['email'] = user_email;
+}
+
+function sendJoin(username, email, ws){
+    var message = '0|' + username + '|' + email;
+    ws.send(message);
+}
+
 function getGravatar(email){
-    var hash = md5sum(lower(email));
+    var hash = CryptoJS.MD5(email.toLowerCase());
     return "http://www.gravatar.com/avatar/" + hash;
 }
 

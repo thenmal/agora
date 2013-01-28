@@ -1,3 +1,15 @@
 .thread {
+    width:350px;
     float:left;
+}
+
+.send {
+    width: 50px;
+    height: 2em;
+    border: none;
+}
+
+.words {
+    width: 300px;
+    height: 2em;
 }

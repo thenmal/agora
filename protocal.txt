@@ -1,0 +1,19 @@
+thread_number|user_number|message
+
+e.g.
+1|2|Hello
+2|15|What the heck guys.
+
+<1 in the thread_number is reserved for system messages and will be eaten by the server.
+
+System Messages
+
+0 new user joined, when a user first joins their client will send a message to the server requesting a user number, the message will be formated as follows.
+0|username|email
+The server will intercept this message and broadcast to all clients the following messsage.
+0|user_number|username|email
+Clients (including the one who just joined) will then associate the user_number to the new username and email for future reference.
+
+-1 user disconnected
+This will be sent from the server when a websocket closes to inform all clients that someone has left the message will be formated as follows.
+-1|user_number
