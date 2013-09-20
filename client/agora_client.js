@@ -1,23 +1,23 @@
+var firebase = new Firebase("https://agora.firebaseio.com");
+
 $(document).ready(function(){
     var name = window.prompt("Your name?");
 
     $('.send').click(function() {
         var chat_num = this.classList[1];
         var msg = $('#words' + chat_num).val();
-        msg = chat_num + '|' + name + ': ' + msg;
-        websocket.send(msg);
+        var thread = firebase.child('thread' + chat_num);
+        thread.push({'user':name,'msg': msg});
         $('#words' + chat_num).val('');
     });
 
-    var wsUri = "ws://10.72.10.163:8888/"; 
-    websocket = new WebSocket(wsUri);
-    websocket.onmessage = function(m){
-        var data = m.data.split('|');
-        $('#chat' + data[0]).append('<p>' + data[1] + '</p>');
-    };
+    firebase.child('threads').on('child_added', function(snapshot) {
+        var t = snapshot.val();
+        console.log(t);
+        firebase.child('thread' + t).on('child_added', function(snapshot){
+            $('#chat' + t).append(
+                '<p>' + '<span class="user">' + snapshot.val()['user'] +
+                ': </span>' + snapshot.val()['msg'] + '</p>');
+        });
+    });
 });
-
-
-
-
-
