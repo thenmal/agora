@@ -16,7 +16,9 @@ $(document).ready(function(){
         console.log(t);
         firebase.child('thread' + t).on('child_added', function(snapshot){
             $('#chat' + t).append(
-                '<p>' + '<span class="user">' + snapshot.val()['user'] +
+                '<p>' + '<img src="http://www.gravatar.com/avatar.php?gravatar_id='
+                + MD5(snapshot.val()['user']) + '&r=PG&s=25&default=identicon"'
+                + ' <span class="user">' + snapshot.val()['user'] +
                 ': </span>' + snapshot.val()['msg'] + '</p>');
         });
     });
