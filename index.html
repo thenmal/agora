@@ -1,23 +1,22 @@
-<html>
+<html ng-app="agoraApp">
     <head>
         <title>Agora Chat</title>
-        <script type="text/javascript" src="jquery.js"></script>
+        <script type='text/javascript' src='angular.min.js'></script>
         <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
+        <script type='text/javascript' src='angularfire.min.js'></script>
         <script type='text/javascript' src='md5.js'></script>
         <script type="text/javascript" src="agora_client.js"></script>
         <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="style.css">
     </head>
-    <body>
-        <div class="thread">
-            <p>chat1</p>
-            <div id='chat1'></div>
-            <input class='words' id="words1"><input class="send 1" type="submit">
+    <body ng-controller="MessageController">
+        <div ng-repeat="msg in messages">
+            <p>
+                <img src="http://www.gravatar.com/avatar.php?gravatar_id={{msg.md5}}&r=PG&s=25&default=identicon">
+                <span class="user">{{msg.user}}: </span>
+                {{msg.message}}
+            </p>
         </div>
-        <div class="thread">
-            <p>chat2</p>
-            <div id='chat2'></div>
-            <input class='words' id="words2"><input class="send 2" type="submit">
-        </div>
+        <input type="text" ng-model="msg" ng-keydown="addMessage($event)" placeholder="Message...">
     </body>
 </html>
