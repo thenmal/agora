@@ -1,1 +1,2 @@
-A threaded chat client implemented with websockets and tornado.
+An angular and firebase chat.
+http://utecht.github.io/agora/
