@@ -6,7 +6,6 @@ agoraApp.controller('MessageController', ['$scope', 'angularFire',
     $scope.messages = [];
     angularFire(firebase, $scope, "messages");
     $scope.addMessage = function(e) {
-        console.log(e);
         if(e.keyCode != 13) return;
         $scope.messages.push({user: name, message:$scope.msg, md5:MD5(name)});
         $scope.msg = "";
