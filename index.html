@@ -12,7 +12,7 @@
     <body ng-controller="MessageController">
         <div ng-repeat="msg in messages">
             <p>
-                <img src="http://www.gravatar.com/avatar.php?gravatar_id='{{msg.md5}}'&r=PG&s=25&default=identicon">
+                <img src="http://www.gravatar.com/avatar.php?gravatar_id={{msg.md5}}&r=PG&s=25&default=identicon">
                 <span class="user">{{msg.user}}: </span>
                 {{msg.message}}
             </p>
